@@ -2,116 +2,167 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>علي ❤️ سارة</title>
 <style>
     body {
         margin: 0;
         font-family: 'Tahoma', sans-serif;
-        background: linear-gradient(135deg, #ffafbd, #ffc3a0);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
         color: #fff;
         text-align: center;
-        overflow: hidden;
+        padding: 20px;
     }
-    .container {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 20px 40px;
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0,0,0,0.4);
-        animation: fadeIn 2s ease-in-out;
-    }
+
     h1 {
-        font-size: 2.2rem;
+        font-size: 2.5em;
         margin-bottom: 10px;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
-    .timer {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
+
+    .countdown {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
     }
+
+    .time-box {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        min-width: 90px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .time-box span {
+        display: block;
+        font-size: 1.8em;
+        font-weight: bold;
+    }
+
+    .time-box label {
+        font-size: 0.9em;
+        opacity: 0.9;
+    }
+
+    .romantic-image {
+        margin: 20px auto;
+        max-width: 250px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        border: 3px solid rgba(255,255,255,0.7);
+    }
+
     .message {
-        font-size: 1.3rem;
-        font-style: italic;
-        animation: fadeIn 1s ease-in-out;
+        margin-top: 15px;
+        font-size: 1.3em;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 15px;
+        border-radius: 12px;
+        display: inline-block;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(10px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-    /* قلوب متحركة */
-    .heart {
-        position: fixed;
-        bottom: -10px;
-        font-size: 1.5rem;
-        animation: floatUp 5s linear infinite;
-        color: #ffdde1;
-        opacity: 0.8;
-    }
-    @keyframes floatUp {
-        0% {transform: translateY(0) scale(1);}
-        100% {transform: translateY(-110vh) scale(1.5);}
+
+    audio {
+        display: none;
     }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>علي ❤️ سارة</h1>
-    <div class="timer" id="timer"></div>
-    <div class="message" id="message"></div>
+<h1>علي ❤️ سارة</h1>
+
+<div class="countdown">
+    <div class="time-box">
+        <span id="years">0</span>
+        <label>سنوات</label>
+    </div>
+    <div class="time-box">
+        <span id="days">0</span>
+        <label>أيام</label>
+    </div>
+    <div class="time-box">
+        <span id="hours">0</span>
+        <label>ساعات</label>
+    </div>
+    <div class="time-box">
+        <span id="minutes">0</span>
+        <label>دقائق</label>
+    </div>
+    <div class="time-box">
+        <span id="seconds">0</span>
+        <label>ثواني</label>
+    </div>
 </div>
 
+<img src="images/love.jpg" alt="Love" class="romantic-image">
+
+<div class="message" id="message"></div>
+
+<audio id="bg-music" autoplay loop></audio>
+
 <script>
-const startDate = new Date("2021-10-15T00:00:00");
-const messages = [
-    "أنتِ سبب سعادتي في كل يوم ❤️",
-    "كل لحظة معك أجمل من التي قبلها 💖",
-    "أحبك أكثر مما تتخيلين 🌹",
-    "أنتِ حلمي الذي تحقق 💕",
-    "وجودك بجانبي يجعل حياتي كاملة 💑",
-    "كل سنة وأنتِ الحب الأبدي ❤️",
-    "أنتِ أجمل هدية من ربي 💫",
-    "أحبك بلا سبب وبكل الأسباب 🌸"
-];
+    const startDate = new Date("2021-10-15T00:00:00");
 
-function updateTimer() {
-    const now = new Date();
-    const diff = now - startDate;
+    function updateCountdown() {
+        const now = new Date();
+        let diff = now - startDate;
 
-    const years = Math.floor(diff / (1000*60*60*24*365.25));
-    const days = Math.floor((diff % (1000*60*60*24*365.25)) / (1000*60*60*24));
-    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const seconds = Math.floor((diff % (1000*60)) / 1000);
+        const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        diff -= years * (1000 * 60 * 60 * 24 * 365.25);
 
-    document.getElementById("timer").textContent =
-        `${years} سنة و ${days} يوم و ${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية معًا 💞`;
-}
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        diff -= days * (1000 * 60 * 60 * 24);
 
-function showRandomMessage() {
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-    document.getElementById("message").textContent = msg;
-}
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        diff -= hours * (1000 * 60 * 60);
 
-// إنشاء قلوب متحركة عشوائية
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.textContent = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
-}
+        const minutes = Math.floor(diff / (1000 * 60));
+        diff -= minutes * (1000 * 60);
 
-setInterval(updateTimer, 1000);
-updateTimer();
-showRandomMessage();
-setInterval(createHeart, 500);
+        const seconds = Math.floor(diff / 1000);
 
+        document.getElementById("years").textContent = years;
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours;
+        document.getElementById("minutes").textContent = minutes;
+        document.getElementById("seconds").textContent = seconds;
+    }
+
+    const messages = [
+        "أحبك أكثر مما تتخيلين ❤️",
+        "أنتِ أجمل هدية في حياتي 🌹",
+        "كل يوم معك هو عيد 💕",
+        "نبض قلبي باسمك دومًا 💖",
+        "أنتِ سبب ابتسامتي 😘",
+        "حياتي تبدأ بكِ وتنتهي بكِ 💓"
+    ];
+
+    function showRandomMessage() {
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        document.getElementById("message").textContent = msg;
+    }
+
+    function playRandomMusic() {
+        const musicList = [
+            "music/song1.mp3",
+            "music/song2.mp3",
+            "music/song3.mp3",
+            "music/song4.mp3",
+            "music/song5.mp3",
+            "music/song6.mp3",
+            "music/song7.mp3"
+        ];
+        const randomSong = musicList[Math.floor(Math.random() * musicList.length)];
+        document.getElementById("bg-music").src = randomSong;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    showRandomMessage();
+    playRandomMusic();
 </script>
+
 </body>
 </html>
