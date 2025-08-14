@@ -73,23 +73,6 @@
         margin-bottom: 20px;
     }
 
-    #musicToggle {
-        padding: 10px 20px;
-        font-size: 1em;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        background: #fff;
-        color: #ff69b4;
-        font-weight: bold;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-        margin-bottom: 20px;
-    }
-
-    #musicToggle:hover {
-        background: #ffe6f0;
-    }
-
     audio {
         display: none;
     }
@@ -128,8 +111,7 @@
 
     <div class="message" id="message"></div>
 
-    <button id="musicToggle">▶ تشغيل الموسيقى</button>
-    <audio id="bg-music" loop></audio>
+    <audio id="bg-music" autoplay loop muted></audio>
 
 </div>
 
@@ -186,29 +168,20 @@
     ];
 
     const bgMusic = document.getElementById("bg-music");
-    let musicPlaying = false;
 
-    function playRandomMusic() {
+    function playRandomMusicAuto() {
         const randomSong = musicList[Math.floor(Math.random() * musicList.length)];
         bgMusic.src = randomSong;
+        bgMusic.muted = false; // إزالة الكتم بعد تعيين المصدر
+        bgMusic.play().catch(() => {
+            console.log("المتصفح منع التشغيل التلقائي، يحتاج تفاعل المستخدم");
+        });
     }
-
-    document.getElementById("musicToggle").addEventListener("click", () => {
-        if (!musicPlaying) {
-            playRandomMusic();
-            bgMusic.play();
-            musicPlaying = true;
-            document.getElementById("musicToggle").textContent = "⏸ إيقاف الموسيقى";
-        } else {
-            bgMusic.pause();
-            musicPlaying = false;
-            document.getElementById("musicToggle").textContent = "▶ تشغيل الموسيقى";
-        }
-    });
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
     showRandomMessage();
+    playRandomMusicAuto();
 </script>
 
 </body>
