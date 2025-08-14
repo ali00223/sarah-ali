@@ -96,7 +96,7 @@
     </div>
 </div>
 
-<img src="images/love.jpg" alt="Love" class="romantic-image">
+<img src="love.jpg" alt="Love" class="romantic-image">
 
 <div class="message" id="message"></div>
 
@@ -146,13 +146,13 @@
 
     function playRandomMusic() {
         const musicList = [
-            "music/song1.mp3",
-            "music/song2.mp3",
-            "music/song3.mp3",
-            "music/song4.mp3",
-            "music/song5.mp3",
-            "music/song6.mp3",
-            "music/song7.mp3"
+            "song1.mp3",
+            "song2.mp3",
+            "song3.mp3",
+            "song4.mp3",
+            "song5.mp3",
+            "song6.mp3",
+            "song7.mp3"
         ];
         const randomSong = musicList[Math.floor(Math.random() * musicList.length)];
         document.getElementById("bg-music").src = randomSong;
