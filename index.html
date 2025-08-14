@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>علي ❤️ سارة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
         margin: 0;
@@ -10,12 +11,12 @@
         background: linear-gradient(135deg, #ffdde1, #ee9ca7);
         color: #fff;
         text-align: center;
-        padding: 20px;
+        padding: 10px;
     }
 
     h1 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
+        font-size: 2em;
+        margin-bottom: 15px;
         text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
 
@@ -28,32 +29,32 @@
     .countdown {
         display: flex;
         justify-content: center;
-        gap: 15px;
+        gap: 10px;
         flex-wrap: wrap;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .time-box {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 12px;
-        padding: 20px;
-        min-width: 90px;
+        padding: 15px;
+        min-width: 70px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .time-box span {
         display: block;
-        font-size: 1.8em;
+        font-size: 1.5em;
         font-weight: bold;
     }
 
     .time-box label {
-        font-size: 0.9em;
+        font-size: 0.8em;
         opacity: 0.9;
     }
 
     .romantic-image {
-        max-width: 300px;
+        max-width: 250px;
         width: 80%;
         border-radius: 20px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.4);
@@ -62,19 +63,27 @@
     }
 
     .message {
-        font-size: 1.3em;
+        font-size: 1.2em;
         font-style: italic;
         background: rgba(255, 255, 255, 0.2);
-        padding: 12px 18px;
+        padding: 10px 15px;
         border-radius: 12px;
         display: inline-block;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        max-width: 350px;
+        max-width: 90%;
         margin-bottom: 20px;
     }
 
     audio {
         display: none;
+    }
+
+    @media (max-width: 480px) {
+        h1 { font-size: 1.5em; }
+        .time-box span { font-size: 1.2em; }
+        .time-box { padding: 10px; min-width: 60px; }
+        .romantic-image { max-width: 200px; width: 80%; }
+        .message { font-size: 1em; padding: 8px 12px; }
     }
 </style>
 </head>
@@ -172,8 +181,11 @@
     function playRandomMusicAuto() {
         const randomSong = musicList[Math.floor(Math.random() * musicList.length)];
         bgMusic.src = randomSong;
-        bgMusic.muted = false; // إزالة الكتم بعد تعيين المصدر
-        bgMusic.play().catch(() => {
+        bgMusic.volume = 0.01; // خافت جدًا لتجاوز قيود autoplay
+        bgMusic.play().then(() => {
+            // بعد ثانية، رفع الصوت تدريجيًا
+            setTimeout(() => { bgMusic.volume = 1; }, 1000);
+        }).catch(() => {
             console.log("المتصفح منع التشغيل التلقائي، يحتاج تفاعل المستخدم");
         });
     }
